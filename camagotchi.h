@@ -4,9 +4,15 @@
 /// CONTRIBUTORS: Justin Sostre
 ///
 
+#ifndef CAMAGOTCHI_H_
+#define CAMAGOTCHI_H_
+
 #include <stdbool.h>
 
-typedef struct Animations {
+#define SNACK 0
+#define MEAL 0
+
+typedef struct {
     char *dance1;
     char *dance2;
     char *dance3;
@@ -18,11 +24,11 @@ typedef struct Animations {
     char *medicine1;
     char *medicine2;
     char *medicine3;
-};
+} Animations;
 
 typedef struct {
     char *name;
-    struct animations;
+    Animations animations;
     int age: 8;
     int discipline: 5;
     int happiness: 5;
@@ -43,3 +49,4 @@ int die(Camagotchi *c);
 
 int medicine(Camagotchi *c);
 
+#endif
