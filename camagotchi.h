@@ -32,21 +32,22 @@ typedef struct {
     int age: 8;
     int discipline: 5;
     int happiness: 5;
+    int hunger: 5;
     int health: 3;
     int sick: 2;
 } Camagotchi;
 
 
-int eat(Camagotchi *c, int foodtype);
+int eat(Camagotchi *camagotchi, int foodtype);
 
-int sleep(Camagotchi *c);
+int sleep(Camagotchi *camagotchi);
 
-int discipline(Camagotchi *c);
+int discipline(Camagotchi *camagotchi);
 
-int beep(Camagotchi *c);
+int beep(Camagotchi *camagotchi);
 
-int die(Camagotchi *c);
+int die(Camagotchi *camagotchi);
 
-int medicine(Camagotchi *c);
+int medicine(Camagotchi *camagotchi);
 
 #endif
