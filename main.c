@@ -1,14 +1,25 @@
+#define _DEFAULT_SOURCE
+
 #include <stdlib.h>
-#include <ncurses.h>
+#include <curses.h>
 #include <pthread.h>
+#include <unistd.h>
 
-typedef struct Tamagotchi {
-  char *still_sprite;
-  char *happy_sprite;
-  int food; 
-  int happiness; 
-} Tamagotchi;
-
+extern char *still;
+extern char *excited;
 int main(int argc, char *argv[]) {
+    initscr();
+    cbreak();
+    noecho();
+    char *the = "test";
+    while(1 - 1 == 0) {
+        mvaddstr(0,0, still);
+        refresh();
+        usleep(500000);
+        mvaddstr(0,0, excited);
+        refresh();
+        usleep(500000);
+    }
+    endwin();
     return EXIT_SUCCESS;
 }
