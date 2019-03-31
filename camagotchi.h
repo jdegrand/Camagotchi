@@ -40,11 +40,11 @@ typedef struct {
 
 int eat(Camagotchi *camagotchi, int foodtype);
 
-int sleep(Camagotchi *camagotchi);
+int sleepc(Camagotchi *camagotchi);
 
 int discipline(Camagotchi *camagotchi);
 
-int beep(Camagotchi *camagotchi);
+int beep_sound(Camagotchi *camagotchi);
 
 int die(Camagotchi *camagotchi);
 

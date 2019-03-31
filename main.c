@@ -1,6 +1,8 @@
 #define _DEFAULT_SOURCE
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <curses.h>
 #include <pthread.h>
 #include <unistd.h>
@@ -20,6 +22,41 @@ void init_screen() {
     initscr();
     cbreak();
     noecho();
+    mvaddstr(0, 0, "\
+|---------------------------|\n\
+|      |      |      |      |\n\
+|---------------------------|\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|                           |\n\
+|___________________________|\n\
+|      |      |      |      |\n\
+|---------------------------|\n\0");
+    refresh();
+}
+
+void draw_sprite(char *to_print, int row, int col) {
+    char *tok;
+    char *string = strdup(to_print); 
+    char *buf = NULL;
+    //printf("%s\n", to_print);
+    tok = strtok(string, "\n");
+    while (tok != NULL) {
+        mvaddstr(row, col, tok);
+        tok = strtok(NULL, "\n");
+        row++;
+    }
+    
 }
 
 void *wait_for_input(void *vgame) {
@@ -27,7 +64,7 @@ void *wait_for_input(void *vgame) {
     int ch;
     while((ch = getch()) != 'o') {
         pthread_mutex_lock(&mutex);
-        mvaddstr(0, 60, ch);
+        mvaddstr(0, 60, "Hello");
         refresh();
         //game->flag = 0;
         pthread_mutex_unlock(&mutex);
@@ -37,22 +74,24 @@ void *wait_for_input(void *vgame) {
 }
 
 void *animation(void *vgame) {
-    mvprintw(0, 0, "%d", getpid());
-    getch();
+    //mvprintw(0, 0, "%d", getpid());
+    //getch();
     Game *game = (Game *) vgame;
     // Animations *animations = init_animations();
     Animations *animations = malloc(sizeof(Animations));
     animations = init_animations();
     while(1) {
         pthread_mutex_lock(&mutex);
-        mvaddstr(0,0, animations->dance1);
+        //mvaddstr(0,3, animations->dance1);
+        draw_sprite(animations->dance1, 3, 4);
         //mvaddstr(0,0, "111111111");
         refresh();
         pthread_mutex_unlock(&mutex);
         usleep(500000);
         pthread_mutex_lock(&mutex);
-        mvaddstr(0,0, animations->dance2);
+        //mvaddstr(0,3, animations->dance2);
         //mvaddstr(0,0, "000000000");
+        draw_sprite(animations->dance2, 3, 4);
         refresh();
         pthread_mutex_unlock(&mutex);
         usleep(500000);
@@ -86,9 +125,11 @@ void destroy_signal(int signals) {
 }
 
 int main() {
-    initscr();
-    cbreak();
-    noecho();
+    //initscr();
+    //cbreak();
+    //noecho();
+    init_screen();
+    //while(1);
     Game *game = malloc(sizeof(Game));
     // Animations *animations = init_animations();
     signal(SIGINT, destroy_signal);
