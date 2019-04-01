@@ -8,48 +8,41 @@
 #include <unistd.h>
 #include "camagotchi.h"
 #include "animations.h"
+#include "border.h"
+#include "game.h"
 #include <signal.h>
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-typedef struct Game {
+/*typedef struct Game {
     int x;
     int end;
     int flag;
+    int current_option;
 } Game;
-
-void init_screen() {
+*/
+void init_screen(Game *game) {
     initscr();
     cbreak();
     noecho();
-    mvaddstr(0, 0, "\
-|---------------------------|\n\
-|      |      |      |      |\n\
-|---------------------------|\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|                           |\n\
-|___________________________|\n\
-|      |      |      |      |\n\
-|---------------------------|\n\0");
+    keypad(stdscr, TRUE);
+    if (!has_colors()) {
+        endwin();
+        free(game);
+        exit(1);
+    }
+    start_color();
+    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    mvaddstr(0, 0, outline());
+    attron(COLOR_PAIR(1));
+    mvaddstr(1, 1, "      ");
+    attroff(COLOR_PAIR(1));
     refresh();
 }
 
 void draw_sprite(char *to_print, int row, int col) {
     char *tok;
     char *string = strdup(to_print); 
-    char *buf = NULL;
-    //printf("%s\n", to_print);
     tok = strtok(string, "\n");
     while (tok != NULL) {
         mvaddstr(row, col, tok);
@@ -63,11 +56,12 @@ void *wait_for_input(void *vgame) {
     Game *game = (Game *) vgame; 
     int ch;
     while((ch = getch()) != 'o') {
-        pthread_mutex_lock(&mutex);
-        mvaddstr(0, 60, "Hello");
-        refresh();
-        //game->flag = 0;
-        pthread_mutex_unlock(&mutex);
+        if ((ch == KEY_LEFT) || (ch == KEY_RIGHT)) {
+            pthread_mutex_lock(&mutex);
+            move_cursor(game, ch);
+            refresh();
+            pthread_mutex_unlock(&mutex);
+        }
     }
     //game->flag = 0;//
     pthread_exit(NULL);
@@ -128,9 +122,10 @@ int main() {
     //initscr();
     //cbreak();
     //noecho();
-    init_screen();
-    //while(1);
     Game *game = malloc(sizeof(Game));
+    game->current_option = 0;
+    init_screen(game);
+    //while(1);
     // Animations *animations = init_animations();
     signal(SIGINT, destroy_signal);
     keypad(stdscr, TRUE);
