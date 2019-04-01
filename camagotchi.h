@@ -13,6 +13,10 @@
 #define MEAL 0
 
 typedef struct {
+    char *egg1;
+    char *egg2;
+    char *egg3;
+    
     char *dance1;
     char *dance2;
     char *dance3;

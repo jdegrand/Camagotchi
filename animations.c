@@ -5,6 +5,25 @@
 
 Animations *init_animations() {
     Animations *animations = malloc(sizeof(Animations));
+    animations->egg1 = "\
+  *****  \n\
+ *  *  * \n\
+ **  * * \n\
+ * *   * \n\
+  *****  \0";
+    animations->egg2 = "\
+   *****  \n\
+  *  *  * \n\
+  **  * * \n\
+ * *   *  \n\
+  *****\0";
+    animations->egg3 = "\
+ *****  \n\
+*  *  * \n\
+**  *  * \n\
+ * *   *  \n\
+  *****\0";
+    
     animations->dance1 ="\
      *********\n\
     *         *\n\
@@ -16,7 +35,7 @@ Animations *init_animations() {
    *     * *   ** *   \n\
    *      *    * *    \n\
    *           **     \n\
-   *         *\n\
+   *           *      \n\
     ***********\n\
    ****      ***\n\0";
 
@@ -27,11 +46,11 @@ Animations *init_animations() {
 ********  O    *\n\
 *      *       *\n\
 ********       *\n\
-*     *        *     \n\
-*******   *    *   **\n\
+*     *        *      \n\
+*******   *    *   ** \n\
    *     * *   ****  *\n\
-   *           *  ***\n\
-   *           ***\n\
+   *           *  *** \n\
+   *           ***    \n\
     ***********\n\
    ***       ***\n\0";
 

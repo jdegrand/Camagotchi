@@ -25,6 +25,7 @@ void init_screen(Game *game) {
     initscr();
     cbreak();
     noecho();
+    curs_set(0);
     keypad(stdscr, TRUE);
     if (!has_colors()) {
         endwin();
@@ -75,21 +76,58 @@ void *animation(void *vgame) {
     Animations *animations = malloc(sizeof(Animations));
     animations = init_animations();
     while(1) {
-        pthread_mutex_lock(&mutex);
-        //mvaddstr(0,3, animations->dance1);
-        draw_sprite(animations->dance1, 3, 4);
-        //mvaddstr(0,0, "111111111");
-        refresh();
-        pthread_mutex_unlock(&mutex);
-        usleep(500000);
-        pthread_mutex_lock(&mutex);
-        //mvaddstr(0,3, animations->dance2);
-        //mvaddstr(0,0, "000000000");
-        draw_sprite(animations->dance2, 3, 4);
-        refresh();
-        pthread_mutex_unlock(&mutex);
-        usleep(500000);
+        switch(game->stage) {
+            case 0:
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg1, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg2, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg1, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg3, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->dance1, 3, 4);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->dance2, 3, 4);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                break;
+        }
     }
+    pthread_exit(NULL);
+}
+
+void *growth(void *vgame) {
+    Game *game = (Game *) vgame; 
+    usleep(20000000);
+    pthread_mutex_lock(&mutex);
+    game->stage = 3;
+    pthread_mutex_unlock(&mutex);
+    while(1)
+    pthread_exit(NULL);
 }
 
 void create_threads(Game *game) {
@@ -97,6 +135,7 @@ void create_threads(Game *game) {
     void* ret;
     pthread_create(&threads[0], NULL, wait_for_input, (void *) game);
     pthread_create(&threads[1], NULL, animation, (void *) game);
+    pthread_create(&threads[2], NULL, growth, (void *) game);
     // pthread_create(&threads[1], NULL, wait_for_input, (void *) game);
     // pthread_create(&threads[0], NULL, animations, (void *) game);
     //while((ch = getch()) != 'o') {
@@ -124,6 +163,7 @@ int main() {
     //noecho();
     Game *game = malloc(sizeof(Game));
     game->current_option = 0;
+    game->stage = 0;
     init_screen(game);
     //while(1);
     // Animations *animations = init_animations();
