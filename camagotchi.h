@@ -17,6 +17,12 @@ typedef struct {
     char *egg2;
     char *egg3;
     
+    char *egg_rotate1;
+    char *egg_rotate2;
+    char *egg_rotate3;
+    char *egg_rotate4;
+    char *egg_rotate5;
+    
     char *dance1;
     char *dance2;
     char *dance3;

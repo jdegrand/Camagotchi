@@ -28,34 +28,52 @@ char *outline() {
         return main_outline;
 }
 
-void move_cursor(Game *game, int key) {
+void insert_options() {
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
-    switch(game->current_option) {
+    attron(COLOR_PAIR(1));
+    mvaddstr(1, 1, " FEED ");
+    attroff(COLOR_PAIR(1));
+    mvaddstr(1, 8, " LITE ");
+    mvaddstr(1, 15, " PLAY ");
+    mvaddstr(1, 22, " MEDS ");
+    mvaddstr(17, 1, " DUCK ");
+    mvaddstr(17, 8, " HLTH ");
+    mvaddstr(17, 15, " DISC ");
+    mvaddstr(17, 22, " ATTN ");
+}
+
+void edit_options(int cursor) {
+    switch(cursor) {
         case 0:
-            mvaddstr(1, 1, "      ");
+            mvaddstr(1, 1, " FEED ");
             break;
         case 1:
-            mvaddstr(1, 8, "      ");
+            mvaddstr(1, 8, " LITE ");
             break;
         case 2:
-            mvaddstr(1, 15, "      ");
+            mvaddstr(1, 15, " PLAY ");
             break;
         case 3:
-            mvaddstr(1, 22, "      ");
+            mvaddstr(1, 22, " MEDS ");
             break;
         case 4:
-            mvaddstr(17, 1, "      ");
+            mvaddstr(17, 1, " DUCK ");
             break;
         case 5:
-            mvaddstr(17, 8, "      ");
+            mvaddstr(17, 8, " HLTH ");
             break;
         case 6:
-            mvaddstr(17, 15, "      ");
+            mvaddstr(17, 15, " DISC ");
             break;
         case 7:
-            mvaddstr(17, 22, "      ");
+            mvaddstr(17, 22, " ATTN ");
             break;
     }
+}
+
+void move_cursor(Game *game, int key) {
+    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    edit_options(game->current_option);
     attron(COLOR_PAIR(1));
     if (key == KEY_LEFT) {
         game->current_option--;
@@ -68,31 +86,6 @@ void move_cursor(Game *game, int key) {
             game->current_option = 0;
         }
     }
-    switch(game->current_option) {
-        case 0:
-            mvaddstr(1, 1, "      ");
-            break;
-        case 1:
-            mvaddstr(1, 8, "      ");
-            break;
-        case 2:
-            mvaddstr(1, 15, "      ");
-            break;
-        case 3:
-            mvaddstr(1, 22, "      ");
-            break;
-        case 4:
-            mvaddstr(17, 1, "      ");
-            break;
-        case 5:
-            mvaddstr(17, 8, "      ");
-            break;
-        case 6:
-            mvaddstr(17, 15, "      ");
-            break;
-        case 7:
-            mvaddstr(17, 22, "      ");
-            break;
-    }
+    edit_options(game->current_option);
     attroff(COLOR_PAIR(1));
 }

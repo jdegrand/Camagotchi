@@ -23,6 +23,36 @@ Animations *init_animations() {
 **  *  * \n\
  * *   *  \n\
   *****\0";
+    animations->egg_rotate1 = "\
+  *****  \n\
+ * *   * \n\
+ *  *  * \n\
+ *   * * \n\
+  *****  \0";
+    animations->egg_rotate2 = "\
+  *****  \n\
+ *  *  * \n\
+ *   * * \n\
+ *    ** \n\
+  *****  \0";
+    animations->egg_rotate3 = "\
+  *****  \n\
+ *   * * \n\
+ *    ** \n\
+ **    * \n\
+  *****  \0";
+    animations->egg_rotate4 = "\
+  *****  \n\
+ *    ** \n\
+ **    * \n\
+ * *   * \n\
+  *****  \0";
+    animations->egg_rotate5 = "\
+  *****  \n\
+ **    * \n\
+ * *   * \n\
+ *  *  * \n\
+  *****  \0";
     
     animations->dance1 ="\
      *********\n\

@@ -10,5 +10,7 @@
 #include "game.h"
 
 char *outline();
+void insert_options();
+void edit_options(int cursor);
 void move_cursor(Game *game, int key);
 #endif

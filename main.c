@@ -35,9 +35,10 @@ void init_screen(Game *game) {
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
     mvaddstr(0, 0, outline());
-    attron(COLOR_PAIR(1));
-    mvaddstr(1, 1, "      ");
-    attroff(COLOR_PAIR(1));
+    //attron(COLOR_PAIR(1));
+    //mvaddstr(1, 1, "      ");
+    insert_options();
+    //attroff(COLOR_PAIR(1));
     refresh();
 }
 
@@ -78,7 +79,7 @@ void *animation(void *vgame) {
     while(1) {
         switch(game->stage) {
             case 0:
-                pthread_mutex_lock(&mutex);
+                /*pthread_mutex_lock(&mutex);
                 draw_sprite(animations->egg1, 10, 10);
                 refresh();
                 pthread_mutex_unlock(&mutex);
@@ -95,6 +96,34 @@ void *animation(void *vgame) {
                 usleep(500000);
                 pthread_mutex_lock(&mutex);
                 draw_sprite(animations->egg3, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                break;
+                */
+
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg_rotate1, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg_rotate2, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg_rotate3, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg_rotate4, 10, 10);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg_rotate5, 10, 10);
                 refresh();
                 pthread_mutex_unlock(&mutex);
                 usleep(500000);
