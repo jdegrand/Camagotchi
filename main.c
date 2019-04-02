@@ -15,13 +15,6 @@
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-/*typedef struct Game {
-    int x;
-    int end;
-    int flag;
-    int current_option;
-} Game;
-*/
 void init_screen(Game *game) {
     initscr();
     cbreak();
@@ -36,23 +29,8 @@ void init_screen(Game *game) {
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
     mvaddstr(0, 0, outline());
-    //attron(COLOR_PAIR(1));
-    //mvaddstr(1, 1, "      ");
     insert_options();
-    //attroff(COLOR_PAIR(1));
     refresh();
-}
-
-void draw_sprite(char *to_print, int row, int col) {
-    char *tok;
-    char *string = strdup(to_print); 
-    tok = strtok(string, "\n");
-    while (tok != NULL) {
-        mvaddstr(row, col, tok);
-        tok = strtok(NULL, "\n");
-        row++;
-    }
-    
 }
 
 void *wait_for_input(void *vgame) {
@@ -64,19 +42,15 @@ void *wait_for_input(void *vgame) {
             move_cursor(game, ch);
             refresh();
             pthread_mutex_unlock(&mutex);
-        } else if (ch == KEY_ENTER) {
-            change_mode(game);
+        } else if ((ch == KEY_ENTER) || (ch == 'i')) {
+            change_mode(game, mutex);
         }
     }
-    //game->flag = 0;//
     pthread_exit(NULL);
 }
 
 void *animation(void *vgame) {
-    //mvprintw(0, 0, "%d", getpid());
-    //getch();
     Game *game = (Game *) vgame;
-    // Animations *animations = init_animations();
     Animations *animations = malloc(sizeof(Animations));
     animations = init_animations();
     while(1) {
@@ -168,10 +142,6 @@ void create_threads(Game *game) {
     pthread_create(&threads[0], NULL, wait_for_input, (void *) game);
     pthread_create(&threads[1], NULL, animation, (void *) game);
     pthread_create(&threads[2], NULL, growth, (void *) game);
-    // pthread_create(&threads[1], NULL, wait_for_input, (void *) game);
-    // pthread_create(&threads[0], NULL, animations, (void *) game);
-    //while((ch = getch()) != 'o') {
-    //}
     for (int j = 0; j < 1; j++) {
         pthread_join(threads[j], &ret);
     }
@@ -190,15 +160,10 @@ void destroy_signal(int signals) {
 }
 
 int main() {
-    //initscr();
-    //cbreak();
-    //noecho();
     Game *game = malloc(sizeof(Game));
     game->current_option = 0;
     game->stage = 0;
     init_screen(game);
-    //while(1);
-    // Animations *animations = init_animations();
     signal(SIGINT, destroy_signal);
     keypad(stdscr, TRUE);
     int ch;

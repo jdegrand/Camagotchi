@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <curses.h>
+#include <string.h>
 
 #include "animations.h"
 #include "camagotchi.h"
@@ -125,3 +127,13 @@ Animations *init_animations() {
     return animations;
 }
 
+void draw_sprite(char *to_print, int row, int col) {
+    char *tok;
+    char *string = strdup(to_print);
+    tok = strtok(string, "\n");
+    while (tok != NULL) {
+        mvaddstr(row, col, tok);
+        tok = strtok(NULL, "\n");
+        row++;
+    }
+}

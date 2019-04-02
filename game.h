@@ -16,4 +16,6 @@ typedef struct Game {
     int stage;
 } Game;
 
+
+
 #endif

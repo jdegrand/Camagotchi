@@ -11,5 +11,6 @@
 #include "./camagotchi.h"
 
 Animations *init_animations();
+void draw_sprite(char *to_print, int row, int col);
 
 #endif

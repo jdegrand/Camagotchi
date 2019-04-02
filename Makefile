@@ -2,10 +2,10 @@ FLAGS = -ggdb -Wall -Wextra -pedantic -std=c11
 LINKS = -lpthread -lncurses 
 
 OPTIMIZATIONS = -O3
-OBJECTS = main.o animations.o border.o modes.o camagotchi.o
+OBJECTS = main.o animations.o border.o modes.o camagotchi.o numbers.o
 EXECUTABLE = -o camagotchi
 
-main: main.o animations.o border.o modes.o camagotchi.o
+main: main.o animations.o border.o modes.o camagotchi.o numbers.o
 	gcc $(EXECUTABLE) $(OBJECTS) $(FLAGS) $(LINKS)
 
 main.o: main.c
@@ -22,6 +22,9 @@ camagotchi.o: camagotchi.c
 
 modes.o: modes.c
 	gcc -c modes.c $(FLAGS)
+
+numbers.o: numbers.c
+	gcc -c numbers.c $(FLAGS)
 
 clean:
 	rm *.o camagotchi
