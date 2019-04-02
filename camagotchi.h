@@ -8,6 +8,7 @@
 #define CAMAGOTCHI_H_
 
 #include <stdbool.h>
+#include "game.h"
 
 #define SNACK 0
 #define MEAL 0
@@ -47,6 +48,8 @@ typedef struct {
     int sick: 2;
 } Camagotchi;
 
+
+void change_mode(Game *game);
 
 int eat(Camagotchi *camagotchi, int foodtype);
 

@@ -6,8 +6,29 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <camagotchi.h>
+#include "camagotchi.h"
+#include "game.h"
 
+void change_mode(Game *game) {
+    switch(game->current_option) {
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        case 7:
+            break;
+    }
+}
 
 static void refuse_eat(Camagotchi *camagotchi) {
     beep(camagotchi);
@@ -35,8 +56,8 @@ int eat(Camagotchi *camagotchi, int foodtype) {
 } 
 
 
+
 int die(Camagotchi *camagotchi) {
 
     
-
 }

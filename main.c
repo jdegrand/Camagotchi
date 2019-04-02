@@ -10,6 +10,7 @@
 #include "animations.h"
 #include "border.h"
 #include "game.h"
+#include "modes.h"
 #include <signal.h>
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -63,6 +64,8 @@ void *wait_for_input(void *vgame) {
             move_cursor(game, ch);
             refresh();
             pthread_mutex_unlock(&mutex);
+        } else if (ch == KEY_ENTER) {
+            change_mode(game);
         }
     }
     //game->flag = 0;//
@@ -103,27 +106,27 @@ void *animation(void *vgame) {
                 */
 
                 pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg_rotate1, 10, 10);
+                draw_sprite(animations->egg_rotate1, 10, 14);
                 refresh();
                 pthread_mutex_unlock(&mutex);
                 usleep(500000);
                 pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg_rotate2, 10, 10);
+                draw_sprite(animations->egg_rotate2, 10, 14);
                 refresh();
                 pthread_mutex_unlock(&mutex);
                 usleep(500000);
                 pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg_rotate3, 10, 10);
+                draw_sprite(animations->egg_rotate3, 10, 14);
                 refresh();
                 pthread_mutex_unlock(&mutex);
                 usleep(500000);
                 pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg_rotate4, 10, 10);
+                draw_sprite(animations->egg_rotate4, 10, 14);
                 refresh();
                 pthread_mutex_unlock(&mutex);
                 usleep(500000);
                 pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg_rotate5, 10, 10);
+                draw_sprite(animations->egg_rotate5, 10, 14);
                 refresh();
                 pthread_mutex_unlock(&mutex);
                 usleep(500000);
@@ -134,12 +137,12 @@ void *animation(void *vgame) {
                 break;
             case 3:
                 pthread_mutex_lock(&mutex);
-                draw_sprite(animations->dance1, 3, 4);
+                draw_sprite(animations->dance1, 3, 8);
                 refresh();
                 pthread_mutex_unlock(&mutex);
                 usleep(500000);
                 pthread_mutex_lock(&mutex);
-                draw_sprite(animations->dance2, 3, 4);
+                draw_sprite(animations->dance2, 3, 8);
                 refresh();
                 pthread_mutex_unlock(&mutex);
                 usleep(500000);
