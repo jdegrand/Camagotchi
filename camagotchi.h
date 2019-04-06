@@ -25,6 +25,12 @@ typedef struct {
     char *egg_rotate4;
     char *egg_rotate5;
     
+    char *stage1;
+    char *stage2;
+    char *stage3;
+    char *stage4;
+    char *stage5;
+    
     char *dance1;
     char *dance2;
     char *dance3;

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <curses.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "animations.h"
 #include "camagotchi.h"
@@ -55,7 +56,35 @@ Animations *init_animations() {
  * *   * \n\
  *  *  * \n\
   *****  \0";
-    
+    animations->stage1 = "\
+           \n\
+   ****    \n\
+  *O**O*   \n\
+  ******   \n\
+   ****    \0";
+    animations->stage2 = "\
+           \n\
+           \n\
+   ****    \n\
+  *O**O*   \n\
+********** \0";
+    animations->stage3 = "\
+   ****    \n\
+  *O**O*   \n\
+  ******   \n\
+  ******   \n\
+   ****    \0";
+    animations->stage4 = "\
+   ****    \n\
+  *O**O*   \n\
+  ******   \n\
+   ****    \n\
+           \0";
+    animations->stage5 = "\
+ **** \n\
+*O**O*\n\
+******\n\
+ **** \0";
     animations->dance1 ="\
      *********\n\
     *         *\n\

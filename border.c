@@ -80,7 +80,7 @@ void move_cursor(Game *game, int key) {
         if (game->current_option == -1) {
             game->current_option = 7;
         }
-    } else if (key == KEY_RIGHT) {
+    } else if ((key == KEY_RIGHT) || (key == 'b')) {
         game->current_option++;
         if (game->current_option == 8) {
             game->current_option = 0;

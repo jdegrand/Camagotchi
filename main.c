@@ -37,12 +37,12 @@ void *wait_for_input(void *vgame) {
     Game *game = (Game *) vgame; 
     int ch;
     while((ch = getch()) != 'o') {
-        if ((ch == KEY_LEFT) || (ch == KEY_RIGHT)) {
+        if ((ch == KEY_LEFT) || (ch == KEY_RIGHT) || (ch == 'b')) {
             pthread_mutex_lock(&mutex);
             move_cursor(game, ch);
             refresh();
             pthread_mutex_unlock(&mutex);
-        } else if ((ch == KEY_ENTER) || (ch == 'i')) {
+        } else if ((ch == KEY_ENTER) || (ch == 'n')) {
             change_mode(game, mutex);
         }
     }
@@ -106,6 +106,47 @@ void *animation(void *vgame) {
                 usleep(500000);
                 break;
             case 1:
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->stage1, 10, 14);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->stage2, 10, 14);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->stage1, 10, 14);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->stage3, 10, 14);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->stage4, 10, 14);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->stage3, 10, 14);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                /*pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg_rotate4, 10, 14);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                pthread_mutex_lock(&mutex);
+                draw_sprite(animations->egg_rotate5, 10, 14);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+                usleep(500000);
+                */
                 break;
             case 2:
                 break;
@@ -128,6 +169,10 @@ void *animation(void *vgame) {
 
 void *growth(void *vgame) {
     Game *game = (Game *) vgame; 
+    usleep(20000000);
+    pthread_mutex_lock(&mutex);
+    game->stage++;
+    pthread_mutex_unlock(&mutex);
     usleep(20000000);
     pthread_mutex_lock(&mutex);
     game->stage = 3;
