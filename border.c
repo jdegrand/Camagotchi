@@ -29,10 +29,14 @@ char *outline() {
 }
 
 void insert_options() {
-    init_pair(1, COLOR_BLACK, COLOR_WHITE);
-    attron(COLOR_PAIR(1));
-    mvaddstr(1, 1, "  FEED  ");
+    init_pair(2, COLOR_WHITE, COLOR_BLACK);
+    // init_color(COLOR_TAN, 217, 220, 118);
+    //init_pair(1, COLOR_TAN, COLOR_TAN);
     attroff(COLOR_PAIR(1));
+    attron(COLOR_PAIR(2));
+    mvaddstr(1, 1, "  FEED  ");
+    attroff(COLOR_PAIR(2));
+    attron(COLOR_PAIR(1));
     mvaddstr(1, 10, "  LITE ");
     mvaddstr(1, 19, "  PLAY  ");
     mvaddstr(1, 28, "  MEDS  ");
@@ -72,9 +76,10 @@ void edit_options(int cursor) {
 }
 
 void move_cursor(Game *game, int key) {
-    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    // init_pair(1, COLOR_BLACK, COLOR_WHITE);
     edit_options(game->current_option);
-    attron(COLOR_PAIR(1));
+    attroff(COLOR_PAIR(1));
+    attron(COLOR_PAIR(2));
     if (key == KEY_LEFT) {
         game->current_option--;
         if (game->current_option == -1) {
@@ -87,5 +92,6 @@ void move_cursor(Game *game, int key) {
         }
     }
     edit_options(game->current_option);
-    attroff(COLOR_PAIR(1));
+    attroff(COLOR_PAIR(2));
+    attron(COLOR_PAIR(1));
 }

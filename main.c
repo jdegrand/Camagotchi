@@ -28,6 +28,7 @@ void init_screen(Game *game) {
     }
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    attron(COLOR_PAIR(1));
     mvaddstr(0, 0, outline());
     insert_options();
     refresh();
@@ -56,29 +57,6 @@ void *animation(void *vgame) {
     while(1) {
         switch(game->stage) {
             case 0:
-                /*pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg1, 10, 10);
-                refresh();
-                pthread_mutex_unlock(&mutex);
-                usleep(500000);
-                pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg2, 10, 10);
-                refresh();
-                pthread_mutex_unlock(&mutex);
-                usleep(500000);
-                pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg1, 10, 10);
-                refresh();
-                pthread_mutex_unlock(&mutex);
-                usleep(500000);
-                pthread_mutex_lock(&mutex);
-                draw_sprite(animations->egg3, 10, 10);
-                refresh();
-                pthread_mutex_unlock(&mutex);
-                usleep(500000);
-                break;
-                */
-
                 pthread_mutex_lock(&mutex);
                 draw_sprite(animations->egg_rotate1, 10, 14);
                 refresh();
