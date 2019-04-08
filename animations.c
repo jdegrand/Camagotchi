@@ -156,7 +156,8 @@ Animations *init_animations() {
     return animations;
 }
 
-void draw_sprite(char *to_print, int row, int col) {
+
+void draw_other(char *to_print, int row, int col) {
     char *tok;
     char *string = strdup(to_print);
     tok = strtok(string, "\n");
@@ -164,5 +165,18 @@ void draw_sprite(char *to_print, int row, int col) {
         mvaddstr(row, col, tok);
         tok = strtok(NULL, "\n");
         row++;
+    }
+}
+
+void draw_sprite(char *to_print, int row, int col, Game *game) {
+    if (game->busy != 0) {
+        char *tok;
+        char *string = strdup(to_print);
+        tok = strtok(string, "\n");
+        while (tok != NULL) {
+            mvaddstr(row, col, tok);
+            tok = strtok(NULL, "\n");
+            row++;
+        }
     }
 }

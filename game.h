@@ -14,6 +14,8 @@ typedef struct Game {
     int flag;
     int current_option;
     int stage;
+    int light;
+    int busy;
 } Game;
 
 

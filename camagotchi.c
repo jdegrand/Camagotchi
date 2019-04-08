@@ -18,7 +18,7 @@ void change_mode(Game *game, pthread_mutex_t mutex) {
             feed(game, mutex);
             break;
         case 1:
-            feed(game, mutex);
+            lite(game, mutex);
             break;
         case 2:
             play(game, mutex);
