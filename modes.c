@@ -144,6 +144,13 @@ void play(Game *game, pthread_mutex_t mutex) {
     while (!(valid_key(ch))) {
         ch = getch();
     }
+    if (ch == 'm') {
+        pthread_mutex_lock(&mutex);
+        draw_other(clear_screen, 3, 0, game);
+        refresh();
+        pthread_mutex_unlock(&mutex);
+        return; 
+    }
     pthread_mutex_lock(&mutex);
     random = rand() % 10;
     attroff(COLOR_PAIR(1));
@@ -152,7 +159,10 @@ void play(Game *game, pthread_mutex_t mutex) {
     refresh();
     attroff(COLOR_PAIR(4));
     attron(COLOR_PAIR(1));
+    usleep(2500000);
     //game->busy = 1;
+    draw_other(clear_screen, 3, 0, game);
+    refresh();
     pthread_mutex_unlock(&mutex);
 }
 

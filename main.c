@@ -119,17 +119,6 @@ void *animation(void *vgame) {
                     refresh();
                     pthread_mutex_unlock(&mutex);
                     usleep(500000);
-                    /*pthread_mutex_lock(&mutex);
-                      draw_sprite(animations->egg_rotate4, 10, 14);
-                      refresh();
-                      pthread_mutex_unlock(&mutex);
-                      usleep(500000);
-                      pthread_mutex_lock(&mutex);
-                      draw_sprite(animations->egg_rotate5, 10, 14);
-                      refresh();
-                      pthread_mutex_unlock(&mutex);
-                      usleep(500000);
-                     */
                     break;
                 case 2:
                     break;

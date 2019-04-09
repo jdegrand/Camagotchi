@@ -13,31 +13,35 @@
 #include "game.h"
 
 void change_mode(Game *game, pthread_mutex_t mutex) {
-    switch(game->current_option) {
-        case 0:
-            feed(game, mutex);
-            break;
-        case 1:
-            lite(game, mutex);
-            break;
-        case 2:
-            play(game, mutex);
-            break;
-        case 3:
-            break;
-            feed(game, mutex);
-        case 4:
-            feed(game, mutex);
-            break;
-        case 5:
-            feed(game, mutex);
-            break;
-        case 6:
-            feed(game, mutex);
-            break;
-        case 7:
-            feed(game, mutex);
-            break;
+    if (game->current_option == 1) {
+        lite(game, mutex);
+    } else if (game->light == 0) {
+        switch(game->current_option) {
+            case 0:
+                feed(game, mutex);
+                break;
+            case 1:
+                lite(game, mutex);
+                break;
+            case 2:
+                play(game, mutex);
+                break;
+            case 3:
+                break;
+                feed(game, mutex);
+            case 4:
+                feed(game, mutex);
+                break;
+            case 5:
+                feed(game, mutex);
+                break;
+            case 6:
+                feed(game, mutex);
+                break;
+            case 7:
+                feed(game, mutex);
+                break;
+        }
     }
 }
 
@@ -70,5 +74,5 @@ int eat(Camagotchi *camagotchi, int foodtype) {
 
 int die(Camagotchi *camagotchi) {
 
-    
+
 }
