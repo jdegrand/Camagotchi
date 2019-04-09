@@ -6,6 +6,7 @@
 #include <curses.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <time.h>
 #include "camagotchi.h"
 #include "animations.h"
 #include "border.h"
@@ -193,6 +194,7 @@ int main() {
     game->stage = 0;
     game->light = 0;
     game->busy = 1;
+    srand(time(NULL));
     init_screen(game);
     signal(SIGINT, destroy_signal);
     keypad(stdscr, TRUE);
