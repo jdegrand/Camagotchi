@@ -1,0 +1,15 @@
+extern char *zero;
+extern char *one;
+extern char *two;
+extern char *three;
+extern char *four;
+extern char *five;
+extern char *six;
+extern char *seven;
+extern char *eight;
+extern char *nine;
+extern char *yes;
+extern char *no;
+extern char *arrow;
+extern char *blank_arrow;
+extern char *clear_screen;
