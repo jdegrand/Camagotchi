@@ -169,7 +169,7 @@ void draw_other(char *to_print, int row, int col) {
 }
 
 void draw_sprite(char *to_print, int row, int col, Game *game) {
-    if (game->busy != 0) {
+    if ((game->busy != 0) && (game->light != 1)) {
         char *tok;
         char *string = strdup(to_print);
         tok = strtok(string, "\n");
