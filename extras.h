@@ -13,3 +13,7 @@ extern char *no;
 extern char *arrow;
 extern char *blank_arrow;
 extern char *clear_screen;
+extern char *meal;
+extern char *snack;
+extern char *small_arrow;
+extern char *small_blank_arrow;

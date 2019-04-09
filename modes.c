@@ -8,6 +8,42 @@
 #include <pthread.h>
 
 void feed(Game *game, pthread_mutex_t mutex) {
+    int ch;
+    int opt = 0;
+    pthread_mutex_lock(&mutex);
+    game->busy = 0;
+    draw_other(clear_screen, 3, 0, game);
+    draw_other(meal, 4, 7, game);
+    draw_other(snack, 10, 7, game);
+    draw_other(small_arrow, 4, 1, game);
+    refresh();
+    pthread_mutex_unlock(&mutex);
+    while((ch = getch()) != 'n') {
+        if ((ch == KEY_LEFT) || (ch == KEY_RIGHT) || (ch == 'b')) {
+            if (opt == 0) {
+                opt++;
+                pthread_mutex_lock(&mutex);
+                draw_other(small_blank_arrow, 4, 1, game);
+                draw_other(small_arrow, 10, 1, game);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+            } else if (opt == 1) {
+                opt--;
+                pthread_mutex_lock(&mutex);
+                draw_other(small_arrow, 4, 1, game);
+                draw_other(small_blank_arrow, 10, 1, game);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+            }
+        } else if (ch == 'm') {
+            break;
+        }
+    }
+    pthread_mutex_lock(&mutex);
+    draw_other(clear_screen, 3, 0, game);
+    refresh();
+    pthread_mutex_unlock(&mutex);
+    game->busy = 1;
 
 }
 void lite(Game *game, pthread_mutex_t mutex) {
