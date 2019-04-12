@@ -210,8 +210,72 @@ void duck(Game *game, pthread_mutex_t mutex) {
 
 }
 
-void hlth(Game *game, pthread_mutex_t mutex) {
+void draw_hearts(int value, int row, int col, Game *game) {
+    for (int i = 0; i <=3; i++) {
+        if (value == 1) {
+            draw_other(half_heart, row, col, game);
+            value--;
+        }
+        else if (value <= 0) {
+            draw_other(blank_heart, row, col, game); 
+        } else {
+            draw_other(full_heart, row, col, game); 
+            value -= 2;
+        }
+        col += 8;
+    }
+}
 
+void hlth(Game *game, pthread_mutex_t mutex) {
+    int ch;
+    int opt = 0;
+    pthread_mutex_lock(&mutex);
+    game->busy = 0;
+    draw_other(clear_screen, 3, 0, game);
+    /*draw_other(full_heart, 3, 3, game);
+    draw_other(full_heart, 3, 11, game);
+    draw_other(full_heart, 3, 19, game);
+    draw_other(full_heart, 3, 27, game);*/
+    draw_other(happy, 4, 4, game);
+    //draw_other(full_heart, 3, 27, game);
+    draw_hearts(4 ,10, 3, game);
+    refresh();
+    pthread_mutex_unlock(&mutex);
+    while((ch = getch()) != 'm') {
+        if ((ch == KEY_RIGHT) || (ch == 'b')) {
+            opt++;
+            if (opt == 4) {
+                opt = 0;
+            }
+            switch(opt) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    pthread_mutex_lock(&mutex);
+                    draw_other(clear_screen, 3, 0, game);
+                    draw_other(hungry, 4, 7, game);
+                    draw_hearts(4 , 10, 3, game);
+                    refresh();
+                    pthread_mutex_unlock(&mutex);
+                    break;
+                case 3:
+                    pthread_mutex_lock(&mutex);
+                    draw_other(clear_screen, 3, 0, game);
+                    draw_other(happy, 4, 4, game);
+                    draw_hearts(4, 10, 3, game);
+                    refresh();
+                    pthread_mutex_unlock(&mutex);
+                    break;
+            }
+        }
+    }
+    pthread_mutex_lock(&mutex);
+    draw_other(clear_screen, 3, 0, game);
+    refresh();
+    game->busy = 1;
+    pthread_mutex_unlock(&mutex);
 }
 
 void disc(Game *game, pthread_mutex_t mutex) {

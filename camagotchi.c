@@ -28,18 +28,18 @@ void change_mode(Game *game, pthread_mutex_t mutex) {
                 break;
             case 3:
                 break;
-                feed(game, mutex);
+                meds(game, mutex);
             case 4:
-                feed(game, mutex);
+                duck(game, mutex);
                 break;
             case 5:
-                feed(game, mutex);
+                hlth(game, mutex);
                 break;
             case 6:
-                feed(game, mutex);
+                disc(game, mutex);
                 break;
             case 7:
-                feed(game, mutex);
+                attn(game, mutex);
                 break;
         }
     }

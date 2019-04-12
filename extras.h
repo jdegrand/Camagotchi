@@ -17,3 +17,8 @@ extern char *meal;
 extern char *snack;
 extern char *small_arrow;
 extern char *small_blank_arrow;
+extern char *full_heart;
+extern char *half_heart;
+extern char *blank_heart;
+extern char *hungry;
+extern char *happy;
