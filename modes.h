@@ -1,7 +1,7 @@
 #ifndef MODES_H_
 #define MODES_H_
 
-#include "game.h"
+#include "camagotchi.h"
 #include <pthread.h>
 
 void feed(Game* game, pthread_mutex_t mutex);

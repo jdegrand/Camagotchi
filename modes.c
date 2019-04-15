@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "modes.h"
-#include "game.h"
+#include "camagotchi.h"
 #include "animations.h"
 #include "extras.h"
 #include <curses.h>

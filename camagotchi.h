@@ -9,7 +9,6 @@
 
 #include <stdbool.h>
 #include <pthread.h>
-#include "game.h"
 
 #define SNACK 0
 #define MEAL 0
@@ -18,23 +17,23 @@ typedef struct {
     char *egg1;
     char *egg2;
     char *egg3;
-    
+
     char *egg_rotate1;
     char *egg_rotate2;
     char *egg_rotate3;
     char *egg_rotate4;
     char *egg_rotate5;
-    
+
     char *stage1;
     char *stage2;
     char *stage3;
     char *stage4;
     char *stage5;
-    
+
     char *dance1;
     char *dance2;
     char *dance3;
-    
+
     char *eat1;
     char *eat2;
     char *eat3;
@@ -46,14 +45,31 @@ typedef struct {
 
 typedef struct {
     char *name;
-    Animations animations;
-    int age: 8;
-    int discipline: 5;
-    int happiness: 5;
-    int hunger: 5;
-    int health: 3;
-    int sick: 2;
+    int age;
+    int discipline;
+    int happiness;
+    int hunger;
+    int health;
+    int sick;
 } Camagotchi;
+
+/*
+ * Stages:
+ * 0 - Egg
+ * 1 - Baby
+ * 2 - Child
+ * 3 - Teen
+ */
+typedef struct Game {
+    int x;
+    int end;
+    int flag;
+    int current_option;
+    int stage;
+    int light;
+    int busy;
+    Camagotchi *cam;
+} Game;
 
 
 void change_mode(Game *game, pthread_mutex_t mutex);

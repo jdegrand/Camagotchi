@@ -9,7 +9,6 @@
 #define ANIMATIONS_H_
 
 #include "./camagotchi.h"
-#include "./game.h"
 
 Animations *init_animations();
 void draw_sprite(char *to_print, int row, int col, Game *game);

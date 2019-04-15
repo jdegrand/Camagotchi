@@ -7,7 +7,7 @@
 #ifndef BORDER_H_
 #define BORDER_H_
 
-#include "game.h"
+#include "camagotchi.h"
 
 char *outline();
 void insert_options();

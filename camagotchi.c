@@ -1,6 +1,5 @@
 ///
 /// FILENAME: camagotchi.c
-#include "camagotchi.h"
 /// DESCRIPTION: the implementation of the camagotchi
 /// CONTRIBUTORS: Justin Sostre, Joe DeGrand
 ///
@@ -10,12 +9,11 @@
 #include <pthread.h>
 #include "camagotchi.h"
 #include "modes.h"
-#include "game.h"
 
 void change_mode(Game *game, pthread_mutex_t mutex) {
     if (game->current_option == 1) {
         lite(game, mutex);
-    } else if (game->light == 0) {
+    } else if ((game->light == 0) && (game->stage != 0)) {
         switch(game->current_option) {
             case 0:
                 feed(game, mutex);

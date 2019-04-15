@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "border.h"
-#include "game.h"
+#include "camagotchi.h"
 #include <curses.h>
 
 char *outline() {

@@ -10,7 +10,6 @@
 #include "camagotchi.h"
 #include "animations.h"
 #include "border.h"
-#include "game.h"
 #include "modes.h"
 #include <signal.h>
 
@@ -183,6 +182,7 @@ int main() {
     game->stage = 0;
     game->light = 0;
     game->busy = 1;
+    game->cam = malloc(sizeof(Camagotchi));
     srand(time(NULL));
     init_screen(game);
     signal(SIGINT, destroy_signal);
