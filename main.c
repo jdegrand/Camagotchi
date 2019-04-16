@@ -47,7 +47,7 @@ void *wait_for_input(void *vgame) {
                 refresh();
                 pthread_mutex_unlock(&mutex);
             } else if ((ch == KEY_ENTER) || (ch == 'n')) {
-                change_mode(game, mutex);
+                change_mode(game, &mutex);
             }
         }
     }

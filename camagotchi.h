@@ -77,7 +77,7 @@ typedef struct Game {
 } Game;
 
 
-void change_mode(Game *game, pthread_mutex_t mutex);
+void change_mode(Game *game, pthread_mutex_t *mutex);
 
 int eat(Camagotchi *camagotchi, int foodtype);
 

@@ -28,33 +28,33 @@ void decrement_hunger(Game *game, int amount) {
     }
 }
 
-void feed(Game *game, pthread_mutex_t mutex) {
+void feed(Game *game, pthread_mutex_t *mutex) {
     int ch;
     int opt = 0;
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(mutex);
     game->busy = 0;
     draw_other(clear_screen, 3, 0, game);
     draw_other(meal, 4, 7, game);
     draw_other(snack, 10, 7, game);
     draw_other(small_arrow, 4, 1, game);
     refresh();
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(mutex);
     while((ch = getch()) != 'n') {
         if ((ch == KEY_LEFT) || (ch == KEY_RIGHT) || (ch == 'b')) {
             if (opt == 0) {
                 opt++;
-                pthread_mutex_lock(&mutex);
+                pthread_mutex_lock(mutex);
                 draw_other(small_blank_arrow, 4, 1, game);
                 draw_other(small_arrow, 10, 1, game);
                 refresh();
-                pthread_mutex_unlock(&mutex);
+                pthread_mutex_unlock(mutex);
             } else if (opt == 1) {
                 opt--;
-                pthread_mutex_lock(&mutex);
+                pthread_mutex_lock(mutex);
                 draw_other(small_arrow, 4, 1, game);
                 draw_other(small_blank_arrow, 10, 1, game);
                 refresh();
-                pthread_mutex_unlock(&mutex);
+                pthread_mutex_unlock(mutex);
             }
         } else if (ch == 'm') {
             break;
@@ -71,52 +71,52 @@ void feed(Game *game, pthread_mutex_t mutex) {
             break;
     }
     if ((game->cam)->hunger > 8) {
-        pthread_mutex_lock(&mutex);
+        pthread_mutex_lock(mutex);
         (game->cam)->sick = 1;
         (game->cam)->hunger = 8;
         decrement_happy(game, 4);
-        pthread_mutex_unlock(&mutex);
+        pthread_mutex_unlock(mutex);
     }
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(mutex);
     draw_other(clear_screen, 3, 0, game);
     refresh();
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(mutex);
     game->busy = 1;
 
 }
-void lite(Game *game, pthread_mutex_t mutex) {
+void lite(Game *game, pthread_mutex_t *mutex) {
     int ch;
     int opt = 0;
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(mutex);
     game->busy = 0;
     draw_other(clear_screen, 3, 0, game);
     draw_other(yes, 4, 10, game);
     draw_other(no, 10, 13, game);
     draw_other(arrow, 4, 2, game);
     refresh();
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(mutex);
     while((ch = getch()) != 'n') {
         if ((ch == KEY_LEFT) || (ch == KEY_RIGHT) || (ch == 'b')) {
             if (opt == 0) {
                 opt++;
-                pthread_mutex_lock(&mutex);
+                pthread_mutex_lock(mutex);
                 draw_other(blank_arrow, 4, 2, game);
                 draw_other(arrow, 10, 2, game);
                 refresh();
-                pthread_mutex_unlock(&mutex);
+                pthread_mutex_unlock(mutex);
             } else if (opt == 1) {
                 opt--;
-                pthread_mutex_lock(&mutex);
+                pthread_mutex_lock(mutex);
                 draw_other(arrow, 4, 2, game);
                 draw_other(blank_arrow, 10, 2, game);
                 refresh();
-                pthread_mutex_unlock(&mutex);
+                pthread_mutex_unlock(mutex);
             }
         } else if (ch == 'm') {
             break;
         }
     }
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(mutex);
     if (ch != 'm') {
         if (opt == 1) {
             attroff(COLOR_PAIR(1));
@@ -144,7 +144,7 @@ void lite(Game *game, pthread_mutex_t mutex) {
         refresh();
     }
     game->busy = 1;
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(mutex);
 }
 
 void draw_number(int random, int col, Game *game) {
@@ -199,12 +199,12 @@ int valid_key(int ch) {
     }
 }
 
-void play(Game *game, pthread_mutex_t mutex) {
+void play(Game *game, pthread_mutex_t *mutex) {
     int ch;
     int random;
     init_pair(3, COLOR_CYAN, COLOR_WHITE);
     init_pair(4, COLOR_MAGENTA, COLOR_WHITE);
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(mutex);
     random = rand() % 10;
     attroff(COLOR_PAIR(1));
     attron(COLOR_PAIR(3));
@@ -213,19 +213,19 @@ void play(Game *game, pthread_mutex_t mutex) {
     refresh();
     attroff(COLOR_PAIR(3));
     attron(COLOR_PAIR(1));
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(mutex);
     ch = getch();
     while (!(valid_key(ch))) {
         ch = getch();
     }
     if (ch == 'm') {
-        pthread_mutex_lock(&mutex);
+        pthread_mutex_lock(mutex);
         draw_other(clear_screen, 3, 0, game);
         refresh();
-        pthread_mutex_unlock(&mutex);
+        pthread_mutex_unlock(mutex);
         return; 
     }
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(mutex);
     int random2 = rand() % 10;
     attroff(COLOR_PAIR(1));
     attron(COLOR_PAIR(4));
@@ -242,24 +242,26 @@ void play(Game *game, pthread_mutex_t mutex) {
             increment_happy(game, 1);
         }
     }
+    pthread_mutex_unlock(mutex);
     usleep(2500000);
+    pthread_mutex_lock(mutex);
     //game->busy = 1;
     draw_other(clear_screen, 3, 0, game);
     refresh();
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(mutex);
 }
 
-void meds(Game *game, pthread_mutex_t mutex) {
+void meds(Game *game, pthread_mutex_t *mutex) {
     // game->stage
     if ((game->cam)->sick != 1) {
-        pthread_mutex_lock(&mutex);
+        pthread_mutex_lock(mutex);
         decrement_happy(game, 1);
-        pthread_mutex_unlock(&mutex);
+        pthread_mutex_unlock(mutex);
         return;
     }
     switch(game->stage) {
         case 1:
-            pthread_mutex_lock(&mutex);
+            pthread_mutex_lock(mutex);
             draw_other(syringe, 9, 21, game);
             refresh();
             //pthread_mutex_unlock(&mutex);
@@ -267,12 +269,12 @@ void meds(Game *game, pthread_mutex_t mutex) {
             //pthread_mutex_lock(&mutex);
             draw_other(clear_sick, 9, 21, game);
             refresh();
-            pthread_mutex_unlock(&mutex);
+            pthread_mutex_unlock(mutex);
             break;
         case 2:
             break;
         case 3:
-            pthread_mutex_lock(&mutex);
+            pthread_mutex_lock(mutex);
             draw_other(syringe, 3, 24, game);
             refresh();
             //pthread_mutex_unlock(&mutex);
@@ -280,19 +282,42 @@ void meds(Game *game, pthread_mutex_t mutex) {
             //pthread_mutex_lock(&mutex);
             draw_other(clear_sick, 3, 24, game);
             refresh();
-            pthread_mutex_unlock(&mutex);
+            pthread_mutex_unlock(mutex);
             break;
     }
     int random = rand() % 3;
     if (random == 1) {
-        pthread_mutex_lock(&mutex);
+        pthread_mutex_lock(mutex);
         (game->cam)->sick = 0;
-        pthread_mutex_unlock(&mutex);
+        pthread_mutex_unlock(mutex);
     }
 }
 
-void duck(Game *game, pthread_mutex_t mutex) {
-
+void duck(Game *game, pthread_mutex_t *mutex) {
+    int first_time = 1;
+    pthread_mutex_lock(mutex);
+    game->busy = 0;
+    pthread_mutex_unlock(mutex);
+    for (int i = 32; i > 0; i--) {
+            pthread_mutex_lock(mutex);
+            draw_other(sweep, 3, i, game);
+            if (first_time == 0) {
+                draw_other(clear_sweep, 3, i + 4, game);
+            } else {
+                first_time = 0;
+            }
+            refresh();
+            pthread_mutex_unlock(mutex);
+            usleep(100000);
+    }
+    pthread_mutex_lock(mutex);
+    draw_other(clear_sweep, 3, 4, game);
+    draw_other(clear_sweep, 3, 3, game);
+    draw_other(clear_sweep, 3, 2, game);
+    draw_other(clear_sweep, 3, 1, game);
+    refresh();
+    game->busy = 1;
+    pthread_mutex_unlock(mutex);
 }
 
 void draw_hearts(int value, int row, int col, Game *game) {
@@ -311,16 +336,16 @@ void draw_hearts(int value, int row, int col, Game *game) {
     }
 }
 
-void hlth(Game *game, pthread_mutex_t mutex) {
+void hlth(Game *game, pthread_mutex_t *mutex) {
     int ch;
     int opt = 0;
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(mutex);
     game->busy = 0;
     draw_other(clear_screen, 3, 0, game);
     draw_other(happy, 4, 4, game);
     draw_hearts((game->cam)->hunger ,10, 3, game);
     refresh();
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(mutex);
     while((ch = getch()) != 'm') {
         if ((ch == KEY_RIGHT) || (ch == 'b')) {
             opt++;
@@ -335,35 +360,35 @@ void hlth(Game *game, pthread_mutex_t mutex) {
                     //opt = 3;
                     break;
                 case 2:
-                    pthread_mutex_lock(&mutex);
+                    pthread_mutex_lock(mutex);
                     draw_other(clear_screen, 3, 0, game);
                     draw_other(hungry, 4, 7, game);
                     draw_hearts((game->cam)->hunger , 10, 3, game);
                     refresh();
-                    pthread_mutex_unlock(&mutex);
+                    pthread_mutex_unlock(mutex);
                     break;
                 case 3:
-                    pthread_mutex_lock(&mutex);
+                    pthread_mutex_lock(mutex);
                     draw_other(clear_screen, 3, 0, game);
                     draw_other(happy, 4, 4, game);
                     draw_hearts((game->cam)->happy, 10, 3, game);
                     refresh();
-                    pthread_mutex_unlock(&mutex);
+                    pthread_mutex_unlock(mutex);
                     break;
             }
         }
     }
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(mutex);
     draw_other(clear_screen, 3, 0, game);
     refresh();
     game->busy = 1;
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(mutex);
 }
 
-void disc(Game *game, pthread_mutex_t mutex) {
+void disc(Game *game, pthread_mutex_t *mutex) {
 
 }
 
-void attn(Game *game, pthread_mutex_t mutex) {
+void attn(Game *game, pthread_mutex_t *mutex) {
 
 }

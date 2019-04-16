@@ -10,7 +10,7 @@
 #include "camagotchi.h"
 #include "modes.h"
 
-void change_mode(Game *game, pthread_mutex_t mutex) {
+void change_mode(Game *game, pthread_mutex_t *mutex) {
     if (game->current_option == 1) {
         lite(game, mutex);
     } else if ((game->light == 0) && (game->stage != 0)) {
