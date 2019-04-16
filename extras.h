@@ -24,5 +24,6 @@ extern char *hungry;
 extern char *happy;
 extern char *sick;
 extern char *clear_sick;
+extern char *syringe;
 // extern char *yr;
 // extern char *oz;

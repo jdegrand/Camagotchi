@@ -29,10 +29,12 @@ typedef struct {
     char *stage3;
     char *stage4;
     char *stage5;
+    char *stage_sick;
 
     char *dance1;
     char *dance2;
     char *dance3;
+    char *dance_sick;
 
     char *eat1;
     char *eat2;

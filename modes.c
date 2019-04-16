@@ -233,7 +233,33 @@ void play(Game *game, pthread_mutex_t mutex) {
 }
 
 void meds(Game *game, pthread_mutex_t mutex) {
-
+    // game->stage
+    switch(game->stage) {
+        case 1:
+            pthread_mutex_lock(&mutex);
+            draw_other(syringe, 9, 21, game);
+            refresh();
+            //pthread_mutex_unlock(&mutex);
+            usleep(500000);
+            //pthread_mutex_lock(&mutex);
+            draw_other(clear_sick, 9, 21, game);
+            refresh();
+            pthread_mutex_unlock(&mutex);
+            break;
+        case 2:
+            break;
+        case 3:
+            pthread_mutex_lock(&mutex);
+            draw_other(syringe, 3, 24, game);
+            refresh();
+            //pthread_mutex_unlock(&mutex);
+            usleep(500000);
+            //pthread_mutex_lock(&mutex);
+            draw_other(clear_sick, 3, 24, game);
+            refresh();
+            pthread_mutex_unlock(&mutex);
+            break;
+    }
 }
 
 void duck(Game *game, pthread_mutex_t mutex) {

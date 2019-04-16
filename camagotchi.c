@@ -25,8 +25,8 @@ void change_mode(Game *game, pthread_mutex_t mutex) {
                 play(game, mutex);
                 break;
             case 3:
-                break;
                 meds(game, mutex);
+                break;
             case 4:
                 duck(game, mutex);
                 break;

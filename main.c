@@ -60,80 +60,102 @@ void *animation(void *vgame) {
     animations = game->animations;
     while(1) {
         if ((game->light != 1) && (game->busy != 0)) {
-            switch(game->stage) {
-                case 0:
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->egg_rotate1, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->egg_rotate2, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->egg_rotate3, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->egg_rotate4, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->egg_rotate5, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    break;
-                case 1:
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->stage1, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->stage2, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->stage1, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->stage3, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->stage4, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->stage3, 10, 14, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->dance1, 3, 8, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    pthread_mutex_lock(&mutex);
-                    draw_sprite(animations->dance2, 3, 8, game);
-                    refresh();
-                    pthread_mutex_unlock(&mutex);
-                    usleep(500000);
-                    break;
+            if ((game->cam)->sick != 1) {
+                switch(game->stage) {
+                    case 0:
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->egg_rotate1, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->egg_rotate2, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->egg_rotate3, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->egg_rotate4, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->egg_rotate5, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        break;
+                    case 1:
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->stage1, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->stage2, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->stage1, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->stage3, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->stage4, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->stage3, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->dance1, 3, 8, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->dance2, 3, 8, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        break;
+                }
+            } else {
+                switch(game->stage) {
+                    case 1:
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->stage_sick, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->dance_sick, 3, 8, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        break; 
+                }
+                //while((game->cam)->sick == 1);
             }
         }
     }
@@ -220,7 +242,7 @@ void create_threads(Game *game) {
     pthread_create(&threads[0], NULL, wait_for_input, (void *) game);
     pthread_create(&threads[1], NULL, animation, (void *) game);
     pthread_create(&threads[2], NULL, growth, (void *) game);
-    pthread_create(&threads[3], NULL, sick_check, (void *) game);
+    // pthread_create(&threads[3], NULL, sick_check, (void *) game);
     for (int j = 0; j < 1; j++) {
         pthread_join(threads[j], &ret);
     }

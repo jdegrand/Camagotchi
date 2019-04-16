@@ -85,6 +85,12 @@ Animations *init_animations() {
 *O**O*\n\
 ******\n\
  **** \0";
+    animations->stage_sick = "\
+        \n\
+        \n\
+   **** \n\
+  *X**X*\n\
+********** \0";
     animations->dance1 ="\
      *********\n\
     *         *\n\
@@ -116,6 +122,20 @@ Animations *init_animations() {
    ***       ***\n\0";
 
     animations->dance3 = NULL;
+    animations->dance_sick ="\
+     *********\n\
+    *         *\n\
+********  X    *\n\
+*      *       *\n\
+********       *\n\
+*     *        *      \n\
+*******        * **   \n\
+   *     * *   ** *   \n\
+   *      *    * *    \n\
+   *           **     \n\
+   *           *      \n\
+    ***********\n\
+   ****      ***\n\0";
     animations->eat1 ="\
         **       **\n\
        *  *     *  *\n\

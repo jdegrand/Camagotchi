@@ -184,3 +184,9 @@ char *clear_sick = "\
      \n\
      \n\
      \0";
+
+char *syringe = "\
+  ***\n\
+ *** \n\
+ /   \n\
+/    \0";
