@@ -7,6 +7,27 @@
 #include <curses.h>
 #include <pthread.h>
 
+void increment_happy(Game *game, int amount) {
+    (game->cam)->happy += amount;
+    if ((game->cam)->happy > 8) {
+        (game->cam)->happy = 8;
+    }
+}
+
+void decrement_happy(Game *game, int amount) {
+    (game->cam)->happy -= amount;
+    if ((game->cam)->happy < 0) {
+        (game->cam)->happy = 0;
+    }
+}
+
+void decrement_hunger(Game *game, int amount) {
+    (game->cam)->hunger -= amount;
+    if ((game->cam)->hunger < 0) {
+        (game->cam)->hunger = 0;
+    }
+}
+
 void feed(Game *game, pthread_mutex_t mutex) {
     int ch;
     int opt = 0;
@@ -50,8 +71,11 @@ void feed(Game *game, pthread_mutex_t mutex) {
             break;
     }
     if ((game->cam)->hunger > 8) {
+        pthread_mutex_lock(&mutex);
         (game->cam)->sick = 1;
         (game->cam)->hunger = 8;
+        decrement_happy(game, 4);
+        pthread_mutex_unlock(&mutex);
     }
     pthread_mutex_lock(&mutex);
     draw_other(clear_screen, 3, 0, game);
@@ -175,13 +199,6 @@ int valid_key(int ch) {
     }
 }
 
-void increment_happy(Game *game, int amount) {
-    (game->cam)->happy += amount;
-    if ((game->cam)->happy > 8) {
-        (game->cam)->happy = 8;
-    }
-}
-
 void play(Game *game, pthread_mutex_t mutex) {
     int ch;
     int random;
@@ -234,6 +251,12 @@ void play(Game *game, pthread_mutex_t mutex) {
 
 void meds(Game *game, pthread_mutex_t mutex) {
     // game->stage
+    if ((game->cam)->sick != 1) {
+        pthread_mutex_lock(&mutex);
+        decrement_happy(game, 1);
+        pthread_mutex_unlock(&mutex);
+        return;
+    }
     switch(game->stage) {
         case 1:
             pthread_mutex_lock(&mutex);
@@ -259,6 +282,12 @@ void meds(Game *game, pthread_mutex_t mutex) {
             refresh();
             pthread_mutex_unlock(&mutex);
             break;
+    }
+    int random = rand() % 3;
+    if (random == 1) {
+        pthread_mutex_lock(&mutex);
+        (game->cam)->sick = 0;
+        pthread_mutex_unlock(&mutex);
     }
 }
 
@@ -300,8 +329,10 @@ void hlth(Game *game, pthread_mutex_t mutex) {
             }
             switch(opt) {
                 case 0:
+                    //opt = 2;
                     break;
                 case 1:
+                    //opt = 3;
                     break;
                 case 2:
                     pthread_mutex_lock(&mutex);

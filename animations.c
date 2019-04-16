@@ -108,8 +108,8 @@ Animations *init_animations() {
 
     animations->dance2 = "\
                 \n\
-     *********\n\
-    *         *\n\
+     ********* \n\
+    *         * \n\
 ********  O    *\n\
 *      *       *\n\
 ********       *\n\

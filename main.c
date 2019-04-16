@@ -58,6 +58,10 @@ void *animation(void *vgame) {
     Game *game = (Game *) vgame;
     Animations *animations = malloc(sizeof(Animations));
     animations = game->animations;
+    int random;
+    int hunger_mod;
+    int happy_mod;
+    int sick_mod;
     while(1) {
         if ((game->light != 1) && (game->busy != 0)) {
             if ((game->cam)->sick != 1) {
@@ -156,6 +160,39 @@ void *animation(void *vgame) {
                         break; 
                 }
                 //while((game->cam)->sick == 1);
+            }
+            if ((game->cam)->sick == 1) {
+                hunger_mod = 60;
+                happy_mod = 32;
+                sick_mod = 100;
+            } else if (game->stage == 1) {
+                hunger_mod = 20;
+                happy_mod = 20;
+                sick_mod = 60;
+            } else if (game->stage == 0) {
+                continue;
+            } else {
+                hunger_mod = 80;
+                happy_mod = 80;
+                sick_mod = 200;
+            }
+            random = rand() % hunger_mod;
+            if (random == 1) {
+                pthread_mutex_lock(&mutex);
+                decrement_hunger(game, 1);
+                pthread_mutex_unlock(&mutex);
+            }
+            random = rand() % happy_mod;
+            if (random == 1) {
+                pthread_mutex_lock(&mutex);
+                decrement_happy(game, 1);
+                pthread_mutex_unlock(&mutex);
+            }
+            random = rand() % sick_mod;
+            if (random == 1) {
+                pthread_mutex_lock(&mutex);
+                (game->cam)->sick = 1;
+                pthread_mutex_unlock(&mutex);
             }
         }
     }
