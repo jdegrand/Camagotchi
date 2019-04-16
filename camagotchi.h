@@ -48,9 +48,11 @@ typedef struct {
     int age;
     int discipline;
     int happiness;
+    int happy;
     int hunger;
     int health;
     int sick;
+    int weight;
 } Camagotchi;
 
 /*
@@ -69,6 +71,7 @@ typedef struct Game {
     int light;
     int busy;
     Camagotchi *cam;
+    Animations *animations;
 } Game;
 
 

@@ -39,6 +39,20 @@ void feed(Game *game, pthread_mutex_t mutex) {
             break;
         }
     }
+    switch(opt) {
+        case 0:
+            (game->cam)->hunger += 2;
+            (game->cam)->weight += 1;
+            break;
+        case 1:
+            (game->cam)->hunger += 1;
+            (game->cam)->weight += 2;
+            break;
+    }
+    if ((game->cam)->hunger > 8) {
+        (game->cam)->sick = 1;
+        (game->cam)->hunger = 8;
+    }
     pthread_mutex_lock(&mutex);
     draw_other(clear_screen, 3, 0, game);
     refresh();
@@ -161,6 +175,13 @@ int valid_key(int ch) {
     }
 }
 
+void increment_happy(Game *game, int amount) {
+    (game->cam)->happy += amount;
+    if ((game->cam)->happy > 8) {
+        (game->cam)->happy = 8;
+    }
+}
+
 void play(Game *game, pthread_mutex_t mutex) {
     int ch;
     int random;
@@ -188,13 +209,22 @@ void play(Game *game, pthread_mutex_t mutex) {
         return; 
     }
     pthread_mutex_lock(&mutex);
-    random = rand() % 10;
+    int random2 = rand() % 10;
     attroff(COLOR_PAIR(1));
     attron(COLOR_PAIR(4));
-    draw_number(random, 29, game);
+    draw_number(random2, 29, game);
     refresh();
     attroff(COLOR_PAIR(4));
     attron(COLOR_PAIR(1));
+    if ((ch == 'n') || (ch == KEY_RIGHT)) {
+        if (random2 >= random) {
+            increment_happy(game, 1);
+        }
+    } else if ((ch == 'b') || (ch == KEY_LEFT)) { 
+        if (random2 <= random) {
+            increment_happy(game, 1);
+        }
+    }
     usleep(2500000);
     //game->busy = 1;
     draw_other(clear_screen, 3, 0, game);
@@ -232,13 +262,8 @@ void hlth(Game *game, pthread_mutex_t mutex) {
     pthread_mutex_lock(&mutex);
     game->busy = 0;
     draw_other(clear_screen, 3, 0, game);
-    /*draw_other(full_heart, 3, 3, game);
-    draw_other(full_heart, 3, 11, game);
-    draw_other(full_heart, 3, 19, game);
-    draw_other(full_heart, 3, 27, game);*/
     draw_other(happy, 4, 4, game);
-    //draw_other(full_heart, 3, 27, game);
-    draw_hearts(4 ,10, 3, game);
+    draw_hearts((game->cam)->hunger ,10, 3, game);
     refresh();
     pthread_mutex_unlock(&mutex);
     while((ch = getch()) != 'm') {
@@ -256,7 +281,7 @@ void hlth(Game *game, pthread_mutex_t mutex) {
                     pthread_mutex_lock(&mutex);
                     draw_other(clear_screen, 3, 0, game);
                     draw_other(hungry, 4, 7, game);
-                    draw_hearts(4 , 10, 3, game);
+                    draw_hearts((game->cam)->hunger , 10, 3, game);
                     refresh();
                     pthread_mutex_unlock(&mutex);
                     break;
@@ -264,7 +289,7 @@ void hlth(Game *game, pthread_mutex_t mutex) {
                     pthread_mutex_lock(&mutex);
                     draw_other(clear_screen, 3, 0, game);
                     draw_other(happy, 4, 4, game);
-                    draw_hearts(4, 10, 3, game);
+                    draw_hearts((game->cam)->happy, 10, 3, game);
                     refresh();
                     pthread_mutex_unlock(&mutex);
                     break;

@@ -11,6 +11,7 @@
 #include "animations.h"
 #include "border.h"
 #include "modes.h"
+#include "extras.h"
 #include <signal.h>
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -56,7 +57,7 @@ void *wait_for_input(void *vgame) {
 void *animation(void *vgame) {
     Game *game = (Game *) vgame;
     Animations *animations = malloc(sizeof(Animations));
-    animations = init_animations();
+    animations = game->animations;
     while(1) {
         if ((game->light != 1) && (game->busy != 0)) {
             switch(game->stage) {
@@ -149,8 +150,68 @@ void *growth(void *vgame) {
     pthread_mutex_lock(&mutex);
     game->stage = 3;
     pthread_mutex_unlock(&mutex);
-    while(1)
-        pthread_exit(NULL);
+    while(1);
+    pthread_exit(NULL);
+}
+
+void *sick_check(void *vgame) {
+    Game *game = (Game *) vgame;
+    while(1) {
+        if (((game->cam)->sick == 1) && (game->busy != 0)) {
+            pthread_mutex_lock(&mutex);
+            switch(game->stage) {
+                case 0:
+                    break;
+                case 1:
+                    draw_other(sick, 4, 20);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    draw_other(clear_sick, 4, 20);
+                    draw_other(sick, 4, 28);
+                    break;
+            }
+            refresh();
+            pthread_mutex_unlock(&mutex);
+            int current_stage = game->stage;
+            while((game->cam)->sick) {
+                if (current_stage != game->stage) {
+                    pthread_mutex_lock(&mutex);
+                    switch(game->stage) {
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            draw_other(clear_sick, 4, 20);
+                            draw_other(sick, 4, 27);
+                            break;
+                    }
+                    refresh();
+                    current_stage = game->stage;
+                    pthread_mutex_unlock(&mutex);
+                }
+            }
+            pthread_mutex_lock(&mutex);
+            switch(game->stage) {
+                case 0:
+                    break;
+                case 1:
+                    draw_other(clear_sick, 4, 20);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+            refresh();
+            pthread_mutex_unlock(&mutex);
+        }
+    }
+    pthread_exit(NULL);
 }
 
 void create_threads(Game *game) {
@@ -159,6 +220,7 @@ void create_threads(Game *game) {
     pthread_create(&threads[0], NULL, wait_for_input, (void *) game);
     pthread_create(&threads[1], NULL, animation, (void *) game);
     pthread_create(&threads[2], NULL, growth, (void *) game);
+    pthread_create(&threads[3], NULL, sick_check, (void *) game);
     for (int j = 0; j < 1; j++) {
         pthread_join(threads[j], &ret);
     }
@@ -183,6 +245,13 @@ int main() {
     game->light = 0;
     game->busy = 1;
     game->cam = malloc(sizeof(Camagotchi));
+    game->animations = malloc(sizeof(Animations));
+    game->animations = init_animations();
+    (game->cam)->happy = 0;
+    (game->cam)->hunger = 0;
+    (game->cam)->weight = 5;
+    (game->cam)->age = 0;
+    (game->cam)->sick = 0;
     srand(time(NULL));
     init_screen(game);
     signal(SIGINT, destroy_signal);

@@ -22,3 +22,7 @@ extern char *half_heart;
 extern char *blank_heart;
 extern char *hungry;
 extern char *happy;
+extern char *sick;
+extern char *clear_sick;
+// extern char *yr;
+// extern char *oz;
