@@ -30,11 +30,13 @@ typedef struct {
     char *stage4;
     char *stage5;
     char *stage_sick;
+    char *stage_x;
 
     char *dance1;
     char *dance2;
     char *dance3;
     char *dance_sick;
+    char *dance_x;
 
     char *eat1;
     char *eat2;
@@ -54,6 +56,7 @@ typedef struct {
     int hunger;
     int health;
     int sick;
+    int alive;
     int weight;
     int poop_left;
     int poop_right;

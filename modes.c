@@ -101,8 +101,8 @@ void feed(Game *game, pthread_mutex_t *mutex) {
     refresh();
     pthread_mutex_unlock(mutex);
     game->busy = 1;
-
 }
+
 void lite(Game *game, pthread_mutex_t *mutex) {
     int ch;
     int opt = 0;

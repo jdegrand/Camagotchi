@@ -11,6 +11,9 @@
 #include "modes.h"
 
 void change_mode(Game *game, pthread_mutex_t *mutex) {
+    if ((game->cam)->alive == 0) {
+        return;
+    }
     if (game->current_option == 1) {
         lite(game, mutex);
     } else if ((game->light == 0) && (game->stage != 0)) {

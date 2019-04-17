@@ -79,7 +79,7 @@ void *animation(void *vgame) {
                 refresh();
                 pthread_mutex_unlock(&mutex);
             }
-            if ((game->cam)->sick != 1) {
+            if (((game->cam)->sick != 1) && ((game->cam)->alive == 1)) {
                 switch(game->stage) {
                     case 0:
                         pthread_mutex_lock(&mutex);
@@ -155,7 +155,7 @@ void *animation(void *vgame) {
                         usleep(500000);
                         break;
                 }
-            } else {
+            } else if (((game->cam)->sick == 1) && ((game->cam)->alive == 1)) {
                 switch(game->stage) {
                     case 1:
                         pthread_mutex_lock(&mutex);
@@ -175,6 +175,26 @@ void *animation(void *vgame) {
                         break; 
                 }
                 //while((game->cam)->sick == 1);
+           } else {
+                switch(game->stage) {
+                    case 1:
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->stage_x, 10, 14, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        pthread_mutex_lock(&mutex);
+                        draw_sprite(animations->dance_x, 3, 8, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        usleep(500000);
+                        break; 
+                }
+                while(1);
             }
             if ((game->cam)->sick == 1) {
                 hunger_mod = 60;
@@ -216,76 +236,60 @@ void *animation(void *vgame) {
 
 void *growth(void *vgame) {
     Game *game = (Game *) vgame; 
-    usleep(20000000);
-    pthread_mutex_lock(&mutex);
-    game->stage++;
-    pthread_mutex_unlock(&mutex);
-    usleep(20000000);
-    pthread_mutex_lock(&mutex);
-    game->stage = 3;
-    pthread_mutex_unlock(&mutex);
-    while(1);
+    int stage = 0;
+    int sick = 0;
+    int hunger = 0;
+    while(1) {
+        usleep(1);
+        stage++;
+        if (stage == 2000000) {
+            pthread_mutex_lock(&mutex);
+            game->stage++;
+            pthread_mutex_unlock(&mutex);
+        } else if (stage == 4000000) {
+            pthread_mutex_lock(&mutex);
+            game->stage = 3;
+            pthread_mutex_unlock(&mutex);
+        }
+        if ((game->cam)->sick == 1) {
+            sick++;
+        } else {
+            sick = 0;
+        }
+        if ((game->cam)->hunger == 0) {
+            hunger++;
+        } else {
+            hunger = 0;
+        }
+        if ((sick == 30000000) || (hunger == 30000000)) {
+            pthread_mutex_lock(&mutex);
+            (game->cam)->alive = 0;
+            pthread_mutex_unlock(&mutex);
+            break;
+        }
+    }
     pthread_exit(NULL);
 }
 
 void *sick_check(void *vgame) {
-    Game *game = (Game *) vgame;
+    Game *game = (Game *) vgame; 
+    clock_t start;
     while(1) {
-        if (((game->cam)->sick == 1) && (game->busy != 0)) {
-            pthread_mutex_lock(&mutex);
-            switch(game->stage) {
-                case 0:
+        if ((game->cam)->sick == 1) {
+            start = clock();
+            while(clock() < start + 60000000) {
+                if ((game->cam)->sick == 0) {
                     break;
-                case 1:
-                    draw_other(sick, 4, 20);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    draw_other(clear_sick, 4, 20);
-                    draw_other(sick, 4, 28);
-                    break;
-            }
-            refresh();
-            pthread_mutex_unlock(&mutex);
-            int current_stage = game->stage;
-            while((game->cam)->sick) {
-                if (current_stage != game->stage) {
-                    pthread_mutex_lock(&mutex);
-                    switch(game->stage) {
-                        case 0:
-                            break;
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            draw_other(clear_sick, 4, 20);
-                            draw_other(sick, 4, 27);
-                            break;
-                    }
-                    refresh();
-                    current_stage = game->stage;
-                    pthread_mutex_unlock(&mutex);
                 }
             }
-            pthread_mutex_lock(&mutex);
-            switch(game->stage) {
-                case 0:
-                    break;
-                case 1:
-                    draw_other(clear_sick, 4, 20);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
+            if ((game->cam)->sick == 1) {
+                pthread_mutex_lock(&mutex);
+                (game->cam)->alive = 0;
+                pthread_mutex_unlock(&mutex);
             }
-            refresh();
-            pthread_mutex_unlock(&mutex);
         }
+        usleep(20000000);
     }
-    pthread_exit(NULL);
 }
 
 void create_threads(Game *game) {
@@ -326,6 +330,7 @@ int main() {
     (game->cam)->weight = 5;
     (game->cam)->age = 0;
     (game->cam)->sick = 0;
+    (game->cam)->alive = 1;
     (game->cam)->poop_left = 0;
     (game->cam)->poop_right = 0;
     srand(time(NULL));
