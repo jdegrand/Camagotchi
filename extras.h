@@ -27,5 +27,8 @@ extern char *clear_sick;
 extern char *syringe;
 extern char *sweep;
 extern char *clear_sweep;
+extern char *poop_left;
+extern char *poop_right;
+extern char *poop_clear;
 // extern char *yr;
 // extern char *oz;

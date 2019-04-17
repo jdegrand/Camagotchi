@@ -48,6 +48,9 @@ void *wait_for_input(void *vgame) {
                 pthread_mutex_unlock(&mutex);
             } else if ((ch == KEY_ENTER) || (ch == 'n')) {
                 change_mode(game, &mutex);
+                pthread_mutex_lock(&mutex);
+                flushinp();
+                pthread_mutex_unlock(&mutex);
             }
         }
     }

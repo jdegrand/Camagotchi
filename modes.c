@@ -60,15 +60,17 @@ void feed(Game *game, pthread_mutex_t *mutex) {
             break;
         }
     }
-    switch(opt) {
-        case 0:
-            (game->cam)->hunger += 2;
-            (game->cam)->weight += 1;
-            break;
-        case 1:
-            (game->cam)->hunger += 1;
-            (game->cam)->weight += 2;
-            break;
+    if (ch != 'm') {
+        switch(opt) {
+            case 0:
+                (game->cam)->hunger += 2;
+                (game->cam)->weight += 1;
+                break;
+            case 1:
+                (game->cam)->hunger += 1;
+                (game->cam)->weight += 2;
+                break;
+        }
     }
     if ((game->cam)->hunger > 8) {
         pthread_mutex_lock(mutex);
@@ -299,16 +301,16 @@ void duck(Game *game, pthread_mutex_t *mutex) {
     game->busy = 0;
     pthread_mutex_unlock(mutex);
     for (int i = 32; i > 0; i--) {
-            pthread_mutex_lock(mutex);
-            draw_other(sweep, 3, i, game);
-            if (first_time == 0) {
-                draw_other(clear_sweep, 3, i + 4, game);
-            } else {
-                first_time = 0;
-            }
-            refresh();
-            pthread_mutex_unlock(mutex);
-            usleep(100000);
+        pthread_mutex_lock(mutex);
+        draw_other(sweep, 3, i, game);
+        if (first_time == 0) {
+            draw_other(clear_sweep, 3, i + 4, game);
+        } else {
+            first_time = 0;
+        }
+        refresh();
+        pthread_mutex_unlock(mutex);
+        usleep(100000);
     }
     pthread_mutex_lock(mutex);
     draw_other(clear_sweep, 3, 4, game);

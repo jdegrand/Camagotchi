@@ -220,3 +220,24 @@ char *clear_sweep = "\
  \n\
  \n\
  \0";
+
+char *poop_left = "\
+ \\ \n\
+  * \n\
+ ** \n\
+****\n\
+****\0";
+
+char *poop_right = "\
+   /\n\
+  * \n\
+ ** \n\
+****\n\
+****\0";
+
+char *poop_clear = "\
+    \n\
+    \n\
+    \n\
+    \n\
+    \0";
