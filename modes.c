@@ -31,6 +31,7 @@ void decrement_hunger(Game *game, int amount) {
 void feed(Game *game, pthread_mutex_t *mutex) {
     int ch;
     int opt = 0;
+    int random;
     pthread_mutex_lock(mutex);
     game->busy = 0;
     draw_other(clear_screen, 3, 0, game);
@@ -65,10 +66,26 @@ void feed(Game *game, pthread_mutex_t *mutex) {
             case 0:
                 (game->cam)->hunger += 2;
                 (game->cam)->weight += 1;
+                // random = 1;
+                random = rand() % 8;
+                if (random == 1) {
+                    pthread_mutex_lock(mutex);
+                    (game->cam)->poop_left = 1;
+                    pthread_mutex_unlock(mutex);
+                }
                 break;
             case 1:
                 (game->cam)->hunger += 1;
                 (game->cam)->weight += 2;
+                random = rand() % 8;
+                // random = 1;
+                if (random == 1) {
+                    pthread_mutex_lock(mutex);
+                    (game->cam)->poop_right = 1;
+                    //draw_other(poop_left, 10, 1, game);
+                    //refresh();
+                    pthread_mutex_unlock(mutex);
+                }
                 break;
         }
     }
@@ -298,7 +315,9 @@ void meds(Game *game, pthread_mutex_t *mutex) {
 void duck(Game *game, pthread_mutex_t *mutex) {
     int first_time = 1;
     pthread_mutex_lock(mutex);
-    game->busy = 0;
+    // game->busy = 0;
+    (game->cam)->poop_left = 0;
+    (game->cam)->poop_right = 0;
     pthread_mutex_unlock(mutex);
     for (int i = 32; i > 0; i--) {
         pthread_mutex_lock(mutex);
@@ -318,7 +337,7 @@ void duck(Game *game, pthread_mutex_t *mutex) {
     draw_other(clear_sweep, 3, 2, game);
     draw_other(clear_sweep, 3, 1, game);
     refresh();
-    game->busy = 1;
+    // game->busy = 1;
     pthread_mutex_unlock(mutex);
 }
 

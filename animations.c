@@ -89,7 +89,7 @@ Animations *init_animations() {
         \n\
         \n\
    **** \n\
-  *X**X*\n\
+  *=**=*\n\
 ********** \0";
     animations->dance1 ="\
      *********\n\
@@ -125,7 +125,7 @@ Animations *init_animations() {
     animations->dance_sick ="\
      *********\n\
     *         *\n\
-********  X    *\n\
+********  -    *\n\
 *      *       *\n\
 ********       *\n\
 *     *        *      \n\

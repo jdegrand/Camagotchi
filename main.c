@@ -67,6 +67,18 @@ void *animation(void *vgame) {
     int sick_mod;
     while(1) {
         if ((game->light != 1) && (game->busy != 0)) {
+            if ((game->cam)->poop_right == 1) {
+                pthread_mutex_lock(&mutex);
+                draw_other(poop_left, 11, 2, game);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+            }
+            if ((game->cam)->poop_left == 1) {
+                pthread_mutex_lock(&mutex);
+                draw_other(poop_right, 11, 30, game);
+                refresh();
+                pthread_mutex_unlock(&mutex);
+            }
             if ((game->cam)->sick != 1) {
                 switch(game->stage) {
                     case 0:
@@ -314,6 +326,8 @@ int main() {
     (game->cam)->weight = 5;
     (game->cam)->age = 0;
     (game->cam)->sick = 0;
+    (game->cam)->poop_left = 0;
+    (game->cam)->poop_right = 0;
     srand(time(NULL));
     init_screen(game);
     signal(SIGINT, destroy_signal);

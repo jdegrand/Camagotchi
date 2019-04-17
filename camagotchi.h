@@ -55,6 +55,8 @@ typedef struct {
     int health;
     int sick;
     int weight;
+    int poop_left;
+    int poop_right;
 } Camagotchi;
 
 /*
