@@ -241,3 +241,17 @@ char *poop_clear = "\
     \n\
     \n\
     \0";
+
+char *attention = "\
+*\n\
+*\n\
+*\n\
+ \n\
+*\0";
+
+char *clear_attention = "\
+*\n\
+*\n\
+*\n\
+ \n\
+*\0";

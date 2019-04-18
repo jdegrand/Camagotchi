@@ -11,6 +11,6 @@
 
 char *outline();
 void insert_options();
-void edit_options(int cursor);
+void edit_options(int cursor, Game *game, int is_on);
 void move_cursor(Game *game, int key);
 #endif

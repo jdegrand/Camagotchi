@@ -79,6 +79,33 @@ void *animation(void *vgame) {
                 refresh();
                 pthread_mutex_unlock(&mutex);
             }
+            if ((game->cam)->attention == 1) {
+                if (game->attention_selector == 1) {
+                    if (game->current_option != 7) {
+                        pthread_mutex_lock(&mutex);
+                        mvaddstr(17, 28, "  ATTN  ");
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        game->attention_selector = 0;
+                    }
+                }
+                /*switch(game->stage) {
+                    case 1:
+                        pthread_mutex_lock(&mutex);
+                        draw_other(attention, 7, 25, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        pthread_mutex_lock(&mutex);
+                        draw_other(attention, 3, 27, game);
+                        refresh();
+                        pthread_mutex_unlock(&mutex);
+                        break;
+                }*/
+            }
             if (((game->cam)->sick != 1) && ((game->cam)->alive == 1)) {
                 switch(game->stage) {
                     case 0:
@@ -229,6 +256,12 @@ void *animation(void *vgame) {
                 (game->cam)->sick = 1;
                 pthread_mutex_unlock(&mutex);
             }
+            random = rand() % 100;
+            if (((game->cam)->hunger == 0) || ((game->cam)->happy == 0) || (random == 1)) {
+                (game->cam)->attention = 1;
+                game->attention_selector = 1;
+                // wants_attention(game, &mutex);
+            }
         }
     }
     pthread_exit(NULL);
@@ -333,6 +366,10 @@ int main() {
     (game->cam)->alive = 1;
     (game->cam)->poop_left = 0;
     (game->cam)->poop_right = 0;
+    (game->cam)->attention = 0;
+    (game->cam)->attention = 0;
+    game->current_option = 0;
+    game->attention_selector = 0;
     srand(time(NULL));
     init_screen(game);
     signal(SIGINT, destroy_signal);

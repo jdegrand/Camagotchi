@@ -30,5 +30,7 @@ extern char *clear_sweep;
 extern char *poop_left;
 extern char *poop_right;
 extern char *poop_clear;
+extern char *attention;
+extern char *clear_attention;
 // extern char *yr;
 // extern char *oz;

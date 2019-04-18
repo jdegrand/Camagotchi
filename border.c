@@ -30,6 +30,7 @@ char *outline() {
 
 void insert_options() {
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
+    init_pair(2, COLOR_WHITE, COLOR_BLACK);
     // init_color(COLOR_TAN, 217, 220, 118);
     //init_pair(1, COLOR_TAN, COLOR_TAN);
     attroff(COLOR_PAIR(1));
@@ -42,11 +43,11 @@ void insert_options() {
     mvaddstr(1, 28, "  MEDS  ");
     mvaddstr(17, 1, "  DUCK  ");
     mvaddstr(17, 10, "  HLTH  ");
-    mvaddstr(17, 19, "  DISC  ");
-    mvaddstr(17, 28, "  ATTN  ");
+    mvaddstr(17, 19, "  DISC  ");    
+    mvaddstr(17, 28, "        ");
 }
 
-void edit_options(int cursor) {
+void edit_options(int cursor, Game *game, int is_on) {
     switch(cursor) {
         case 0:
             mvaddstr(1, 1, "  FEED  ");
@@ -70,14 +71,22 @@ void edit_options(int cursor) {
             mvaddstr(17, 19, "  DISC  ");
             break;
         case 7:
-            mvaddstr(17, 28, "  ATTN  ");
+            if (is_on == 1) {
+                mvaddstr(17, 28, "  ATTN  ");
+            } else {
+                if ((game->cam)->attention == 1) {
+                    mvaddstr(17, 28, "  ATTN  ");
+                } else {
+                    mvaddstr(17, 28, "        ");
+                }
+            }
             break;
     }
 }
 
 void move_cursor(Game *game, int key) {
     // init_pair(1, COLOR_BLACK, COLOR_WHITE);
-    edit_options(game->current_option);
+    edit_options(game->current_option, game, 0);
     attroff(COLOR_PAIR(1));
     attron(COLOR_PAIR(2));
     if (key == KEY_LEFT) {
@@ -91,7 +100,7 @@ void move_cursor(Game *game, int key) {
             game->current_option = 0;
         }
     }
-    edit_options(game->current_option);
+    edit_options(game->current_option, game, 1);
     attroff(COLOR_PAIR(2));
     attron(COLOR_PAIR(1));
 }

@@ -364,20 +364,32 @@ void hlth(Game *game, pthread_mutex_t *mutex) {
     game->busy = 0;
     draw_other(clear_screen, 3, 0, game);
     draw_other(happy, 4, 4, game);
-    draw_hearts((game->cam)->hunger ,10, 3, game);
+    draw_hearts((game->cam)->happy ,10, 3, game);
     refresh();
     pthread_mutex_unlock(mutex);
     while((ch = getch()) != 'm') {
         if ((ch == KEY_RIGHT) || (ch == 'b')) {
             opt++;
-            if (opt == 4) {
+            if (opt == 2) {
                 opt = 0;
             }
             switch(opt) {
                 case 0:
+                    pthread_mutex_lock(mutex);
+                    draw_other(clear_screen, 3, 0, game);
+                    draw_other(happy, 4, 4, game);
+                    draw_hearts((game->cam)->happy, 10, 3, game);
+                    refresh();
+                    pthread_mutex_unlock(mutex);
                     //opt = 2;
                     break;
                 case 1:
+                    pthread_mutex_lock(mutex);
+                    draw_other(clear_screen, 3, 0, game);
+                    draw_other(hungry, 4, 7, game);
+                    draw_hearts((game->cam)->hunger , 10, 3, game);
+                    refresh();
+                    pthread_mutex_unlock(mutex);
                     //opt = 3;
                     break;
                 case 2:
@@ -411,5 +423,9 @@ void disc(Game *game, pthread_mutex_t *mutex) {
 }
 
 void attn(Game *game, pthread_mutex_t *mutex) {
-
+    if ((game->cam)->attention == 1) {
+        pthread_mutex_lock(mutex);
+        (game->cam)->attention = 0;
+        pthread_mutex_unlock(mutex);
+    }
 }

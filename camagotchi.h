@@ -60,6 +60,7 @@ typedef struct {
     int weight;
     int poop_left;
     int poop_right;
+    int attention;
 } Camagotchi;
 
 /*
@@ -79,6 +80,7 @@ typedef struct Game {
     int busy;
     Camagotchi *cam;
     Animations *animations;
+    int attention_selector;
 } Game;
 
 
