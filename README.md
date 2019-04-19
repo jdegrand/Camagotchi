@@ -34,3 +34,6 @@ This option is used to check the Camagotchi's happiness and hunger levels. Click
 
 ### DISC
 This function is what you click when your Camagotchi calls for attention, but it is not actually at zero hunger or zero health. If you discipline a Camagotchi who when it doesn't deserve it, then its happiness goes down by down hearts
+
+### ATTN
+This option is not always available on the screen. The option lights up if the Camagotchi's hunger or happiness is at zero. It can also turn on if the Camagotchi wants attention, even if it is fully healthy. After you tend to the Camagotchi's needs, you can click the 'n' button to turn the attention button back off, until it calls for attention again. If it falsely calls for attention, you are supposed discipline the Camagotchi with the DISC menu option
