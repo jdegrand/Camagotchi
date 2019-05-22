@@ -1,3 +1,5 @@
+#define _DEFAULT_SOURCE
+
 #include <stdlib.h>
 #include <curses.h>
 #include <string.h>
@@ -197,7 +199,7 @@ animations->stage_x = "\
 }
 
 
-void draw_other(char *to_print, int row, int col) {
+void draw_other(char *to_print, int row, int col, Game *game) {
     char *tok;
     char *string = strdup(to_print);
     tok = strtok(string, "\n");

@@ -1,5 +1,6 @@
+#define _DEFAULT_SOURCE
 #include <stdlib.h>
-
+#include <unistd.h>
 #include "modes.h"
 #include "camagotchi.h"
 #include "animations.h"

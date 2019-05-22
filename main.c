@@ -374,9 +374,6 @@ int main() {
     init_screen(game);
     signal(SIGINT, destroy_signal);
     keypad(stdscr, TRUE);
-    int ch;
-    int x = getmaxx(stdscr);
-    int y = getmaxy(stdscr);
     create_threads(game);
     destroy_game();
     return EXIT_SUCCESS;

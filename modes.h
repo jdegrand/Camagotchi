@@ -12,5 +12,7 @@ void duck(Game* game, pthread_mutex_t *mutex);
 void hlth(Game* game, pthread_mutex_t *mutex);
 void disc(Game* game, pthread_mutex_t *mutex);
 void attn(Game* game, pthread_mutex_t *mutex);
-
+void increment_happy(Game *game, int amount);
+void decrement_happy(Game *game, int amount);
+void decrement_hunger(Game *game, int amount);
 #endif
